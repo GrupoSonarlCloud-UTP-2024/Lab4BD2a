@@ -1,0 +1,24 @@
+DECLARE
+/* Variable de salida para almacenar los resultados de la Consulta */
+v_StudentID students.id%TYPE;
+v_FirstName students.first_name%TYPE;
+v_ LastName students.last_name%TYPE;
+/* Valores de acoplamiento utilizado en la consulta */
+v_ Major students.major%TYPE := ‘Computer Science’;
+/* Declaración del Curso */
+CURSOR c_Students IS
+SELECT id, first_name, last_name
+FROM students
+WHERE major = v_Major;
+BEGIN
+/* Identificar las filas en el conjunto activo y preparar el procesamiento ulterior de los datos */
+OPEN c_Students ;
+LOOP
+/* Recuperar cada fila del conjunto active y almacenarlos en las variables PL/SQL */
+FETCH c_Students INTO v_StudentID, v_FirstName, v_ LastName;
+/* SI no hay más filas que recuperar, salir del bucle */
+EXIT WHEN c_Students%NOTFOUND;
+END LOOP;
+/* Liberar los recursos usados para la consulta */
+CLOSE c_Students;
+END;
